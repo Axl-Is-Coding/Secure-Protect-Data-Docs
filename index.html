@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secure Protect Data Documentation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f8f9fa;
+            color: #343a40;
+        }
+        h1 {
+            color: #007bff;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .menu {
+            margin-bottom: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .menu a {
+            margin: 5px;
+            text-decoration: none;
+            color: #fff;
+            background-color: #007bff;
+            padding: 10px 15px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        .menu a:hover {
+            background-color: #0056b3;
+        }
+        section {
+            margin-bottom: 40px;
+            padding: 20px;
+            border: 1px solid #007bff;
+            border-radius: 5px;
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            color: #007bff;
+            margin-top: 0;
+        }
+        ul {
+            list-style-type: disc;
+            margin-left: 20px;
+        }
+        pre {
+            background-color: #eaeaea;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+            font-family: Consolas, "Courier New", monospace;
+        }
+        .back {
+            display: inline-block;
+            margin-top: 20px;
+            text-decoration: none;
+            color: #fff;
+            background-color: #28a745;
+            padding: 10px 15px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        .back:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Secure Protect Data Documentation</h1>
+
+<div class="menu">
+    <a href="#overview">Overview</a>
+    <a href="#classes">Classes</a>
+    <a href="#memory-class">Memory Class</a>
+    <a href="#file-class">File Class</a>
+    <a href="#example-usage">Example Usage</a>
+    <a href="#logging">Logging</a>
+    <a href="#unit-testing">Unit Testing</a>
+    <a href="#conclusion">Conclusion</a>
+</div>
+
+<section id="overview">
+    <h2>Overview</h2>
+    <p>The <code>Secure_Protect_Data</code> module provides a currency management system that handles currency data in memory and stores it in various file formats (JSON and CSV). It includes features like data validation, logging, backup and restore functionality, and advanced error handling.</p>
+</section>
+
+<section id="classes">
+    <h2>Classes</h2>
+    <p>This module contains two main classes: <code>Memory</code> and <code>File</code>.</p>
+</section>
+
+<section id="memory-class">
+    <h2>Memory Class</h2>
+    <p>The <code>Memory</code> class manages currency data in memory.</p>
+    <h4>Methods</h4>
+    <ul>
+        <li><code>__init__()</code>: Initializes an empty currency storage dictionary.</li>
+        <li><code>create_currency(name: str, amount: float = 0) -> dict</code>: Creates a new currency object.</li>
+        <li><code>store_data(currency)</code>: Stores the currency data in memory.</li>
+        <li><code>get_data(name: str) -> Union[dict, None]</code>: Retrieves currency data from memory by name.</li>
+        <li><code>update_currency(name: str, operation: str, new_value: float)</code>: Updates the amount of an existing currency by adding or subtracting.</li>
+        <li><code>list_all_currencies() -> list</code>: Lists all currencies currently stored in memory.</li>
+    </ul>
+</section>
+
+<section id="file-class">
+    <h2>File Class</h2>
+    <p>The <code>File</code> class manages currency data stored in a file.</p>
+    <h4>Methods</h4>
+    <ul>
+        <li><code>__init__(filename='currency_data.json', file_format='json')</code>: Initializes the file manager with a specified filename and file format.</li>
+        <li><code>load_data()</code>: Loads currency data from the specified file. Supports both JSON and CSV formats.</li>
+        <li><code>store_data()</code>: Stores the current currency data to the specified file in the selected format.</li>
+        <li><code>get_data(name: str) -> Union[dict, None]</code>: Retrieves currency data from the file by name.</li>
+        <li><code>update_currency(name: str, operation: str, new_value: float)</code>: Updates the amount of an existing currency and saves changes to the file.</li>
+        <li><code>backup_data(backup_filename='currency_backup.json')</code>: Creates a backup of the current currency data.</li>
+        <li><code>restore_data(backup_filename='currency_backup.json')</code>: Restores currency data from a backup file.</li>
+    </ul>
+</section>
+
+<section id="example-usage">
+    <h2>Example Usage</h2>
+
+    <h3>Using the Memory Class</h3>
+    <pre><code>from Secure_Protect_Data import Memory
+
+# Create an instance of Memory
+memory_manager = Memory()
+
+# Create and store a currency
+coin = memory_manager.create_currency("Coin", 100)
+memory_manager.store_data(coin)
+
+# Update the currency amount
+memory_manager.update_currency("Coin", "Add", 50)
+
+# Retrieve and print the currency data
+print(memory_manager.get_data("Coin"))  # Output: {'name': 'Coin', 'amount': 150}
+</code></pre>
+
+    <h3>Using the File Class</h3>
+    <pre><code>from Secure_Protect_Data import File
+
+# Create an instance of File
+file_manager = File(filename='currency_data.json', file_format='json')
+
+# Update currency (this assumes currency data has been previously loaded or created)
+file_manager.update_currency("Coin", "Subtract", 30)
+
+# Retrieve and print the currency data
+print(file_manager.get_data("Coin"))  # Output: {'name': 'Coin', 'amount': 120}
+</code></pre>
+
+    <h3>Backup and Restore</h3>
+    <pre><code># Backup the current data
+file_manager.backup_data('currency_backup.json')
+
+# Restore data from backup
+file_manager.restore_data('currency_backup.json')
+</code></pre>
+</section>
+
+<section id="logging">
+    <h2>Logging</h2>
+    <p>All actions performed (such as storing, loading, updating currencies) are logged with timestamps. This helps in tracking the operations performed on the currency data.</p>
+</section>
+
+<section id="unit-testing">
+    <h2>Unit Testing</h2>
+    <p>You can run unit tests to ensure the functionality of the classes. A simple test suite is provided that tests various operations such as creating, updating, and backing up currencies.</p>
+
+    <h3>Running Tests</h3>
+    <p>To run the tests, use the following command in the terminal:</p>
+    <pre><code>python -m unittest test_filename.py</code></pre>
+    <p>Replace <code>test_filename.py</code> with the name of your test file.</p>
+</section>
+
+<section id="conclusion">
+    <h2>Conclusion</h2>
+    <p>The <code>Secure_Protect_Data</code> module provides a flexible and robust way to manage currency data in memory and through file storage. With features like logging, backup/restore, and support for multiple file formats, it is designed to be both user-friendly and reliable. If you have any further questions or need assistance, feel free to ask!</p>
+</section>
+
+<a class="back" href="#overview">Back to Top</a>
+
+</body>
+</html>
